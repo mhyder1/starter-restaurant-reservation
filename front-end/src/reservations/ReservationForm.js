@@ -18,7 +18,7 @@ function ReservationForm(){
     }
 
     const [form, setForm] = useState({...initialFormState})
-    const [reservationsError, setReservationsError] = useState([]);
+    const [reservationsError, setReservationsError] = useState(null);
     const history= useHistory();
 
 
@@ -38,57 +38,58 @@ function ReservationForm(){
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(businessHours() !== false){
-            try{
-                postReservation(form)
-                .then(()=> history.push(`/dashboard?date=${form.reservation_date}`))
-            }
-            catch(error){
-                console.log(error)
-            }
-        } 
+        const abortController = new AbortController();
+
+        setReservationsError(null);
+        postReservation(form, abortController.signal)
+            .then(()=> history.push(`/dashboard?date=${form.reservation_date}`))
+            .catch(setReservationsError)
+        // if(businessHours() !== false){
+        //     try{
+        //         postReservation(form)
+        //         .then(()=> history.push(`/dashboard?date=${form.reservation_date}`))
+        //     }
+        //     catch(error){
+        //         setReservationsError(error)
+        //     }
+        // } 
     }
 
 
-    const businessHours = async()=> {
-        const reservationDate = new Date(`${form.reservation_date}T${form.reservation_time}:00.000`);
-        const today = new Date();
-        const allErrors = [];
+    // const businessHours = async()=> {
+    //     const reservationDate = new Date(`${form.reservation_date}T${form.reservation_time}:00.000`);
+    //     const today = new Date();
+    //     const allErrors = [];
 
-        if(reservationDate < today){
-            allErrors.push({message: "Reservations must be made for a future date" })
-        }
+    //     if(reservationDate < today){
+    //         allErrors.push({message: "Reservations must be made for a future date" })
+    //     }
 
-        if(reservationDate.getDay()===2){
-            allErrors.push({message: "The restaurant is closed on Tuesdays"})
-        }
+    //     if(reservationDate.getDay()===2){
+    //         allErrors.push({message: "The restaurant is closed on Tuesdays"})
+    //     }
 
-        if(reservationDate.getHours() < 10 || 
-        (reservationDate.getHours() === 10 && reservationDate.getMinutes()<30) ||
-        reservationDate.getHours() >= 23 || 
-        (reservationDate.getHours()===22 && reservationDate.getMinutes() >= 30))
-            {allErrors.push({message: "The restaurant opens at 10:30am"})
-        } 
-        else if((reservationDate.getHours()===21 && reservationDate.getMinutes() >=30) ||
-        (reservationDate.getHours()===22 && reservationDate.getMinutes() <30))
-            {allErrors.push({message: "No reservations available after 9:30pm."})
-        }
+    //     if(reservationDate.getHours() < 10 || 
+    //     (reservationDate.getHours() === 10 && reservationDate.getMinutes()<30) ||
+    //     reservationDate.getHours() >= 23 || 
+    //     (reservationDate.getHours()===22 && reservationDate.getMinutes() >= 30))
+    //         {allErrors.push({message: "The restaurant opens at 10:30am"})
+    //     } 
+    //     else if((reservationDate.getHours()===21 && reservationDate.getMinutes() >=30) ||
+    //     (reservationDate.getHours()===22 && reservationDate.getMinutes() <30))
+    //         {allErrors.push({message: "No reservations available after 9:30pm."})
+    //     }
 
-        setReservationsError(allErrors)
-        return allErrors.length===0
-    }
-
-
-    const errorList = () => {
-        return reservationsError.map((err, index) => <ErrorAlert key={index} error={err} />);
-      };
+    //     setReservationsError(allErrors)
+    //     return allErrors.length===0
+    // }
        
       
     return (
         <>
         <h1>Make a Reservation</h1>
         <form onSubmit = {handleSubmit}>
-            {errorList()}
+            <ErrorAlert error = {reservationsError}/>
             <div className="container">
             <div className="form-group">
                 <label htmlFor="first_name">

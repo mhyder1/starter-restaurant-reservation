@@ -15,6 +15,19 @@ const VALID_PROPERTIES = [
   "updated_at",
 ];
 
+async function reservationExists(req, res, next){
+  const {reservationId} = req.params;
+  const reservation = await service.read(reservationId);
+  if(reservation){
+    res.locals.reservation = reservation;
+    return next();
+  }
+  return next({
+    status: 400,
+    message: "Reservation cannot be found"
+  })
+}
+
 function hasOnlyValidProperties(req, res, next){
   const {data = {}} = req.body;
   res.locals.reservation = req.body.data;
@@ -157,6 +170,11 @@ async function list(req, res) {
   }
 }
 
+async function read(req, res){
+  const {reservation} = res.locals;
+  res.json({data: reservation})
+}
+
 async function createNew(req, res){
   const newReservation = await service.create(req.body.data)
   res.status(201).json({data: newReservation[0]});
@@ -174,4 +192,7 @@ module.exports = {
     peopleIsNumber, 
     asyncErrorBoundary(createNew),],
   list: asyncErrorBoundary(list),
+  read: [
+    asyncErrorBoundary(reservationExists), 
+    asyncErrorBoundary(read)]
 };

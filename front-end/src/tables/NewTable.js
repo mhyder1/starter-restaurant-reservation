@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {useHistory} from "react-router-dom"
+import {postTable} from "../utils/api"
+import ErrorAlert from "../layout/ErrorAlert";
 
 function NewTable(){
     const initialFormState = {
@@ -12,8 +14,21 @@ function NewTable(){
     const history = useHistory();
 
     const handleSubmit = (event) => {
-        
+        event.preventDefault();
+        const abortController = new AbortController();
 
+        async function createTable(){
+            try{
+                await postTable(tableForm, abortController.signal);
+                history.push("/dashboard")
+            }
+            catch(error){
+                setTableFormErrors([...tableFormErrors, error.message])
+            }
+        }
+        if(tableFormErrors.length===0){
+            createTable();
+        }
     }
 
     const handleChange = ({target}) => {
@@ -24,14 +39,13 @@ function NewTable(){
             ...tableForm,
             [value]: name,
         })
-
-
     }
 
     return (
         <div>
             <h1>New Table</h1>
             <form onSubmit={handleSubmit}>
+                <ErrorAlert error={tableFormErrors}/>
                 <div className="container">
                     <div className="form-group">
                         <label htmlFor="table_name">Table Name</label>

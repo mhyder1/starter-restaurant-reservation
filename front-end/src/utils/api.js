@@ -69,6 +69,13 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
+export async function getReservation(id, signal){
+  const url = `${API_BASE_URL}/reservations/${id}`;
+  return await fetchJson(url, {headers, signal}, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime)
+}
+
 export async function postReservation(reservation, signal){
    const url = `${API_BASE_URL}/reservations`;
    const options = {
@@ -80,4 +87,19 @@ export async function postReservation(reservation, signal){
    return await fetchJson(url, options, {})
  }
 
+ export async function listTables(signal) {
+  const url = `${API_BASE_URL}/tables`
+  return await fetchJson(url, {headers, signal}, [])
+}
+
+ export async function postTable(table, signal){
+   const url = `${API_BASE_URL}/tables`;
+   const options = {
+     method: "POST",
+     headers, 
+     body: JSON.stringify({data: table}),
+     signal,
+   }
+   return await fetchJson(url, options)
+ }
  
