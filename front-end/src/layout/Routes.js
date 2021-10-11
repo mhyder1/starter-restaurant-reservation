@@ -25,20 +25,21 @@ function Routes() {
       </Route>
 
       <Route path="/dashboard">
-        <Dashboard 
-          date={today()}/>
+        <Dashboard date = {today()}/>
       </Route>
 
-      <Route path = "/reservations/:reservation_id/seat">
-        <Seat/>
+      <Route path = "/dashboard/:date">
+        <Dashboard/>
       </Route>
       
       <Route path = "/reservations/new">
         <ReservationForm/>
       </Route>
 
+      <Route path = "/reservations/:reservation_id/seat">
+        <Seat/>
+      </Route>
       
-
       <Route path = "/tables/new">
         <NewTable/>
       </Route>

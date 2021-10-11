@@ -7,8 +7,9 @@ import ErrorAlert from "../layout/ErrorAlert";
 import DashboardDateNavigation from "./DashboardDateNavigation"
 import ReservationsList from "../reservations/ReservationsList"
 import TableList from "../tables/TableList"
-import {listReservations, listTables} from "../utils/api"
-import {today} from "../utils/date-time"
+import {listReservations, listTables} 
+  from "../utils/api"
+//import {today} from "../utils/date-time"
 
 
 /**
@@ -22,39 +23,43 @@ function Dashboard({date}) {
   const [reservationsError, setReservationsError] = useState(null)
   const [tables, setTables] = useState([])
   const [tablesError, setTablesError] = useState(null)
-  const query = useQuery();
+  
+  const dateQuery = useQuery().get("date")
 
-  const thisDate = query.get("date") ? query.get("date") : today()
+  if(dateQuery && dateQuery !== ""){
+    date = dateQuery
+  }
+  console.log(date)
   
-  useEffect(loadReservations, [thisDate])
-  useEffect(loadTables, []) 
-  
-  function loadReservations(){
+//loads reservations
+  useEffect(()=> {
     const abortController = new AbortController();
-
     setReservationsError(null)
-  
-    listReservations({date: thisDate}, abortController.signal)
+
+    listReservations({date}, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError)
-  
+    
     return ()=> abortController.abort();
-  }
-  
-  function loadTables(){
-    const abortController = new AbortController();
+  }, [date])
 
-    setTablesError(null)
 
-    listTables(abortController.signal)
-        .then(setTables)
-        .catch(setTablesError)
+  //loads tables
+    useEffect(()=> {
+      const abortController = new AbortController();
+
+      setTablesError(null)
+      listTables(abortController.signal)
+          .then(setTables)
+          .catch(setTablesError)
   
-    return ()=> abortController.abort();
-  }
+      return ()=> abortController.abort();
+    }, [])
+  
+
   //const history = useHistory();
  
-  const reservationDate = formatReadableDate(thisDate)
+  const reservationDate = formatReadableDate(date)
   
   return (
     <main>
@@ -63,16 +68,16 @@ function Dashboard({date}) {
       <div className="d-md-flex mb-3">
         <div className="mb-3">
         <h4 className="mb-0">Reservations for {reservationDate}</h4>
-          <DashboardDateNavigation date = {thisDate}/>
+          <DashboardDateNavigation date = {date}/>
           <ReservationsList reservations = {reservations}/> 
         </div>
        <ErrorAlert error = {tablesError}/> 
         <div className="mb-3 mx-3">
           <h4>Tables</h4>
-           <TableList tables={tables}/> 
+            <TableList tables={tables}/> 
         </div>
         </div>
-      {/* {JSON.stringify(reservations)} */}
+      {/* {JSON.stringify(reservations)}  */}
   </main>
   
   );

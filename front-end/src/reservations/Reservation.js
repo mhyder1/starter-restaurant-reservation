@@ -1,9 +1,11 @@
 import React from "react"
+import {Link} from "react-router-dom"
 import {formatAsTime} from "../utils/date-time"
 import formatPhoneNumber from "../utils/format-phone-number.js"
 
 function Reservation({reservation}){
   const{first_name, last_name, mobile_number, reservation_time, people, reservation_id} = reservation;
+  console.log(reservation)
   const timeString = reservation_time.toString();
   const newTime =formatAsTime(timeString);
   const time = newTime.split(":");
@@ -23,8 +25,6 @@ function Reservation({reservation}){
   timeValue += (minutes <10) ? ":0" + minutes : ":" + minutes;
   timeValue += (hours >=12) ? " P.M." : " A.M.";
  
-
-
     return(
         <div className = "card">
             <div className = "card-body">
@@ -34,7 +34,9 @@ function Reservation({reservation}){
                 <p className="card-text">Phone number: {phoneNumber}</p>
                 <p className="card-text">Time: {timeValue}</p>
                 <p className="card-text">Party size: {people}</p>
-                <a href ={`/reservations/${reservation_id}/seat`} className="btn btn-primary">Seat</a>
+                <Link to = {`/reservations/${reservation_id}/seat`}>
+                    <button href ={`/reservations/${reservation_id}/seat`} className="btn btn-primary">Seat</button>
+                </Link>
             </div>
         </div>
     )
