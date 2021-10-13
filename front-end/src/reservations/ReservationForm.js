@@ -29,6 +29,7 @@ function ReservationForm(){
         if(name==="people" && typeof value === "string"){
             value = +value
         }
+        
         setForm({
             ...form, 
             [name]: value,

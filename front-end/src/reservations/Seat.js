@@ -1,42 +1,91 @@
 import React, {useState, useEffect}from "react";
-import {useParams} from "react-router-dom"
+import {useParams, useHistory} from "react-router-dom"
 import ErrorAlert from "../layout/ErrorAlert"
-import Reservation from "./Reservation"
-import { listTables, readReservation } from "../utils/api";
+//import Reservation from "./Reservation"
+import { listTables, readReservation, seatTable } from "../utils/api";
 
 function Seat(){
-
-    const initialFormState = {
-        table_id: "",
-    };
-
-    const [error, setError] = useState(null)
-    const [formData, setFormData] = useState({...initialFormState})
-    const [reservation, setReservation] = useState({})
-    const [tables, setTables] = useState({})
+    const history = useHistory()
+    
+    const [seatTableError, setSeatTableError] = useState(null)
+    const [tablesError, setTablesError] = useState(null)
+    const [reservationError, setReservationError]= useState(null)
+    const [tableId, setTableId] = useState("")
+    const [reservation, setReservation] = useState([])
+    const [tables, setTables] = useState([])
     const {reservation_id} = useParams();
+    
 
  useEffect(()=> {
-    async function loadTables(){
-         const abortController = new AbortController();
-         setError(null)
-         readReservation(reservation_id, abortController.signal)
-             .then(setReservation)
-             .catch(setError)
+    const abortController = new AbortController();
+         setTablesError(null)
          listTables(abortController.signal)
              .then(setTables)
-             .catch(setError)
+             .catch(setTablesError)
          return()=> abortController.abort();
-     }
-     loadTables()
- }, [reservation_id])
+     }, [])
+
+
+  useEffect(()=> {
+      const abortController= new AbortController();
+      setReservationError(null)
+      readReservation(reservation_id, abortController.signal)
+              .then(setReservation)
+              .catch(setReservationError)
+     return()=> abortController.abort();
+  }, [reservation_id])
+
+
+
+const handleChange = ({target}) => {
+    setTableId(target.value)
+    console.log(target.value)
+    };
+
+
+ const handleSubmit = (event)=> {
+     event.preventDefault();
+     const abortController= new AbortController();
+     setSeatTableError(null)
+
+     seatTable(reservation_id, tableId.table_id, abortController.signal)
+        .then(()=> history.push('/dashboard'))
+        .catch(setSeatTableError)
+
+    return ()=> abortController.abort()
+ }
 
     return (
         <>
-        <ErrorAlert error = {error}/>
-        <Reservation reservation = {reservation}/>
+        <ErrorAlert error = {reservationError}/>
+        <ErrorAlert error= {tablesError}/>
+        <ErrorAlert error = {seatTableError}/>
+        <h2>Assign table for party of {reservation.people}</h2>
+            <form onSubmit={handleSubmit}>
+                <div className = "container">
+                    <div className= "form-group">
+                        <label htmlFor="table_id"> Choose a Table</label>
+                            <select
+                                className = "form-control"
+                                name="table_id"
+                                id="table_id"
+                                value = {tableId}
+                                onChange = {handleChange}
+                            >
+                                <option value = "" >--Select an Option--</option>
+                                {tables.map((table, index)=> {
+                                    return (<option key={index} value={table.table_id}>{table.table_name}-{table.capacity}</option>)
+                                })}
+                            </select>
+                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button type="button" className="btn btn-secondary" onClick={()=> history.goBack()}>Cancel</button>
+                    </div>
+                </div>
+            </form>
         </>
     )
 }
 
 export default Seat;
+
+

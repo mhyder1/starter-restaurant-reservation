@@ -10,25 +10,18 @@ function NewTable(){
     }
 
     const [tableForm, setTableForm] = useState({...initialFormState})
-    const [tableFormErrors, setTableFormErrors] = useState([])
+    const [tableFormErrors, setTableFormErrors] = useState(null)
     const history = useHistory();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const abortController = new AbortController();
 
-        async function createTable(){
-            try{
-                await postTable(tableForm, abortController.signal);
-                history.push("/dashboard")
-            }
-            catch(error){
-                setTableFormErrors([...tableFormErrors, error.message])
-            }
-        }
-        if(tableFormErrors.length===0){
-            createTable();
-        }
+         postTable(tableForm, abortController.signal)
+            .then(()=> history.push("/dashboard"))
+            .catch(setTableFormErrors)
+        
+        return ()=> abortController.abort()
     }
 
     const handleChange = ({target}) => {
