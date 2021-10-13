@@ -1,10 +1,11 @@
 //const { select } = require("../db/connection")
 const knex = require("../db/connection")
 
-function read(reservation_id){
+function read(id){
     return knex("reservations")
     .select("*")
-    .where({reservation_id: reservation_id})
+    .where({reservation_id: Number(id)})
+    .then((result)=> result[0])
 }
 
 function list(){
@@ -27,9 +28,18 @@ function create(reservation){
     .returning("*")
 }
 
+function update(updatedReservation){
+    return knex("reservations")
+    .select("*")
+    .where({reservation_id: updatedReservation.reservation_id})
+    .update(updatedReservation, "*")
+    .then((updatedReservations)=> updatedReservations[0])
+}
+
 module.exports = {
     list,
     listByDate,
     create,
     read,
+    update,
 }
