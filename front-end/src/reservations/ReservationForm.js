@@ -1,13 +1,11 @@
-import React, {useState} from "react";
-import { useHistory} 
-    //useParams} 
-    from "react-router-dom"
-import {postReservation} from "../utils/api"
-//import {formatAsTime, today} from "../utils/date-time"
+import React, {useEffect, useState} from "react";
+import { useHistory, useParams} from "react-router-dom"
+import {postReservation, readReservation, updateReservation} from "../utils/api"
+import {formatAsTime} from "../utils/date-time"
 import ErrorAlert from "../layout/ErrorAlert";
 
 function ReservationForm(){
-    //const {reservation_id} = useParams()
+    const {reservation_id} = useParams()
     const initialFormState= {
         first_name: "",
         last_name: "",
@@ -21,6 +19,17 @@ function ReservationForm(){
     const [reservationsError, setReservationsError] = useState(null);
     const history= useHistory();
 
+  
+    useEffect(()=> {
+        const abortController = new AbortController();
+        if(reservation_id){
+            readReservation(reservation_id, abortController.signal)
+                .then(setForm)
+                .catch(setReservationsError)
+        }
+        return () => abortController.abort()
+    }, [reservation_id])
+
 
     const handleChange = ({target}) => {
         let value = target.value;
@@ -29,66 +38,41 @@ function ReservationForm(){
         if(name==="people" && typeof value === "string"){
             value = +value
         }
-        
+
+        if(name==="reservation_time"){
+            value = formatAsTime(value)
+        }
         setForm({
             ...form, 
             [name]: value,
         })
     }
-
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const abortController = new AbortController();
-
+        if(!reservation_id){
         setReservationsError(null);
         postReservation(form, abortController.signal)
             .then(()=> history.push(`/dashboard?date=${form.reservation_date}`))
             .catch(setReservationsError)
-        // if(businessHours() !== false){
-        //     try{
-        //         postReservation(form)
-        //         .then(()=> history.push(`/dashboard?date=${form.reservation_date}`))
-        //     }
-        //     catch(error){
-        //         setReservationsError(error)
-        //     }
-        // } 
+        }
+
+        if(reservation_id){
+            setReservationsError(null);
+            updateReservation(form, abortController.signal)
+                .then(()=> history.goBack())
+                .catch(setReservationsError)
+        }
+        return () => abortController.abort();
     }
 
-
-    // const businessHours = async()=> {
-    //     const reservationDate = new Date(`${form.reservation_date}T${form.reservation_time}:00.000`);
-    //     const today = new Date();
-    //     const allErrors = [];
-
-    //     if(reservationDate < today){
-    //         allErrors.push({message: "Reservations must be made for a future date" })
-    //     }
-
-    //     if(reservationDate.getDay()===2){
-    //         allErrors.push({message: "The restaurant is closed on Tuesdays"})
-    //     }
-
-    //     if(reservationDate.getHours() < 10 || 
-    //     (reservationDate.getHours() === 10 && reservationDate.getMinutes()<30) ||
-    //     reservationDate.getHours() >= 23 || 
-    //     (reservationDate.getHours()===22 && reservationDate.getMinutes() >= 30))
-    //         {allErrors.push({message: "The restaurant opens at 10:30am"})
-    //     } 
-    //     else if((reservationDate.getHours()===21 && reservationDate.getMinutes() >=30) ||
-    //     (reservationDate.getHours()===22 && reservationDate.getMinutes() <30))
-    //         {allErrors.push({message: "No reservations available after 9:30pm."})
-    //     }
-
-    //     setReservationsError(allErrors)
-    //     return allErrors.length===0
-    // }
-       
+    console.log(form)
       
     return (
         <>
-        <h1>Make a Reservation</h1>
+        {reservation_id ? <h1>Edit Reservation</h1> : <h1>Make a Reservation</h1> }
         <form onSubmit = {handleSubmit}>
             <ErrorAlert error = {reservationsError}/>
             <div className="container">

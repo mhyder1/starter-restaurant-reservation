@@ -6,6 +6,9 @@ import { today } from "../utils/date-time";
 import ReservationForm from "../reservations/ReservationForm"
 import NewTable from "../tables/NewTable"
 import Seat from "../reservations/Seat"
+import Search from "../reservations/Search"
+import EditReservation from "../reservations/EditReservation";
+
 /**
  * Defines all the routes for the application.
  *
@@ -15,6 +18,7 @@ import Seat from "../reservations/Seat"
  */
 function Routes() {
   return (
+  
     <Switch>
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />
@@ -39,9 +43,17 @@ function Routes() {
       <Route path = "/reservations/:reservation_id/seat">
         <Seat/>
       </Route>
+
+      <Route path = "/reservations/:reservation_id/edit">
+        <EditReservation/>
+      </Route>
       
       <Route path = "/tables/new">
         <NewTable/>
+      </Route>
+
+      <Route path = "/search">
+        <Search/>
       </Route>
 
       <Route>
@@ -49,6 +61,7 @@ function Routes() {
       </Route>
 
     </Switch>
+    
   );
 }
 

@@ -37,7 +37,10 @@ function Dashboard({date}) {
     setReservationsError(null)
 
     listReservations({date}, abortController.signal)
-      .then(setReservations)
+      .then((data)=> {
+        setReservations(data.filter((res)=> 
+        ["booked", "seated"].includes(res.status)))
+      })
       .catch(setReservationsError)
     
     return ()=> abortController.abort();

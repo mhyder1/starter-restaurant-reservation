@@ -101,6 +101,18 @@
     return await fetchJson(url,options)
   }
  
+  export async function updateReservation(updatedReservation, signal){
+    const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`;
+    const options = {
+      method: "PUT",
+      headers, 
+      body: JSON.stringify({data: updatedReservation}),
+      signal,
+    }
+    return await fetchJson(url, options)
+     
+  }
+
   export async function listTables(signal) {
    const url = `${API_BASE_URL}/tables`
    return await fetchJson(url, {headers, signal}, [])
@@ -137,3 +149,13 @@
     }
     return await fetchJson(url, options)
   }
+
+  export async function searchMobileNumber(mobile_number, signal){
+    const url = `${API_BASE_URL}/reservations?mobile_number=${mobile_number}`;
+    return await fetchJson(url, {headers, signal}, [])
+      .then(formatReservationDate)
+      .then(formatReservationTime)
+  }
+
+  
+  

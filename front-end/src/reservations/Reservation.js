@@ -1,31 +1,34 @@
-import React from "react"
-import {Link} from "react-router-dom"
-import {formatAsTime} from "../utils/date-time"
+import React, {useState} from "react"
+import {Link, useHistory} from "react-router-dom"
+import {getTimeFormat} from "../utils/date-time"
 import formatPhoneNumber from "../utils/format-phone-number.js"
-// import {updateReservation} from "../utils/api"
+import {updateReservationStatus} from "../utils/api"
+import ErrorAlert from "../layout/ErrorAlert"
 
 function Reservation({reservation}){
   const{first_name, last_name, mobile_number, reservation_time, people, reservation_id, status} = reservation;
-  console.log(reservation)
-  const timeString = reservation_time.toString();
-  const newTime =formatAsTime(timeString);
-  const time = newTime.split(":");
-  const hours = Number(time[0]);
-  const minutes = Number(time[1]);
-  let timeValue = null;
- const phoneNumber = formatPhoneNumber(mobile_number)
+  
+  const [cancelError, setCancelError] = useState(null);
+  const history = useHistory();
+  const formattedTime = getTimeFormat(reservation_time);
+  
+  const phoneNumber = formatPhoneNumber(mobile_number)
 
+  const handleCancel = (event) => {
+      event.preventDefault();
+      if(window.confirm("Do you want to cancel this reservation? This cannot be undone.")){
+          const abortController = new AbortController();
+          setCancelError(null);
+          
+          updateReservationStatus(reservation_id, "cancelled", abortController.signal)
+            .then(()=> history.go(0))
+            .catch(setCancelError)
 
-  if(hours > 0 && hours <=12){
-      timeValue= "" + hours;
-  } else if (hours >12){
-      timeValue="" + (hours-12)
-  } else if (hours===0){
-      timeValue = "12"
+          return()=> abortController.abort();   
+        }
   }
-  timeValue += (minutes <10) ? ":0" + minutes : ":" + minutes;
-  timeValue += (hours >=12) ? " P.M." : " A.M.";
- 
+
+  
 
   //need to figure out how to change status of a reservation when Seat clicked
     return(
@@ -35,7 +38,7 @@ function Reservation({reservation}){
                     Reservation for: {first_name} {last_name}
                 </h5>
                 <p className="card-text">Phone number: {phoneNumber}</p>
-                <p className="card-text">Time: {timeValue}</p>
+                <p className="card-text">Time: {formattedTime}</p>
                 <p className="card-text">Party size: {people}</p>
                 <div data-reservation-id-status= {reservation_id}>{`Status: ${status}`}</div>
                 {status==="booked" ? (
@@ -47,6 +50,19 @@ function Reservation({reservation}){
                     </Link>
                 ) : 
                 null}
+                    <Link to={`/reservations/${reservation_id}/edit`}>
+                        <button href = {`/reservations/${reservation_id}/edit`}
+                                className="btn btn-success">
+                                    Edit
+                        </button>
+                    </Link>
+                        <button 
+                            data-reservation-id-cancel={reservation.reservation_id} 
+                            className="btn btn-danger"
+                            onClick = {handleCancel}>
+                            Cancel
+                        </button>
+                    <ErrorAlert error = {cancelError}/> 
             </div>
         </div>
     )
