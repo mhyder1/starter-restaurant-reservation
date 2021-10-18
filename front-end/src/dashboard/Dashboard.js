@@ -22,7 +22,7 @@ function Dashboard({date}) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null)
   const [tables, setTables] = useState([])
-  const [tablesError, setTablesError] = useState(null)
+  //const [tablesError, setTablesError] = useState(null)
   
   const dateQuery = useQuery().get("date")
 
@@ -31,34 +31,21 @@ function Dashboard({date}) {
   }
   console.log(date)
   
-//loads reservations
-  useEffect(()=> {
-    const abortController = new AbortController();
-    setReservationsError(null)
+useEffect(loadDashboard, [date]);
 
-    listReservations({date}, abortController.signal)
-      .then((data)=> {
-        setReservations(data.filter((res)=> 
-        ["booked", "seated"].includes(res.status)))
-      })
-      .catch(setReservationsError)
-    
-    return ()=> abortController.abort();
-  }, [date])
+function loadDashboard() {
+  const abortController = new AbortController();
+  setReservationsError(null);
+  listReservations({ date }, abortController.signal)
+    .then(setReservations)
+    .catch(setReservationsError);
+  listTables(abortController.signal)
+    .then(setTables)
+    .catch(setReservationsError);
 
+  return () => abortController.abort();
+}
 
-  //loads tables
-    useEffect(()=> {
-      const abortController = new AbortController();
-
-      setTablesError(null)
-      listTables(abortController.signal)
-          .then(setTables)
-          .catch(setTablesError)
-  
-      return ()=> abortController.abort();
-    }, [])
-  
 
   //const history = useHistory();
  
@@ -66,7 +53,7 @@ function Dashboard({date}) {
   
   return (
     <main>
-      <h1>Dashboard</h1>
+      <h2 className="heading d-md-flex my-3 p-2">Dashboard</h2>
       <ErrorAlert error={reservationsError}/>
       <div className="d-md-flex mb-3">
         <div className="mb-3">
@@ -74,7 +61,7 @@ function Dashboard({date}) {
           <DashboardDateNavigation date = {date}/>
           <ReservationsList reservations = {reservations}/> 
         </div>
-       <ErrorAlert error = {tablesError}/> 
+       {/* <ErrorAlert error = {tablesError}/>  */}
         <div className="mb-3 mx-3">
           <h4>Tables</h4>
             <TableList tables={tables}/> 

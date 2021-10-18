@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./Layout.css"
 /**
  * Defines the alert message to render if the specified error is truthy.
  * @param error
@@ -14,7 +14,7 @@ function ErrorAlert({ error }) {
   else {
     return (
       error && (
-        <div className="alert alert-danger m-2">Error: {error.message}</div>
+        <div className="error alert alert-danger m-2">Error: {error.message}</div>
         )
       )
   }

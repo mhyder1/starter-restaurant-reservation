@@ -72,8 +72,8 @@
  }
  
 
- export async function readReservation(id, signal) {
-  const url = new URL(`${API_BASE_URL}/reservations/${id}`);
+ export async function readReservation(reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -144,7 +144,8 @@
     const url = `${API_BASE_URL}/tables/${table_id}/seat`;
     const options = {
       method: "DELETE", 
-      headers, 
+      headers,
+      body: JSON.stringify({data: {table_id: table_id}}), 
       signal,
     }
     return await fetchJson(url, options)

@@ -3,13 +3,13 @@ import Reservation from "./Reservation"
 import ErrorAlert from "../layout/ErrorAlert"
 function ReservationsList({reservations}){
 
-if(reservations.length===0){
-    return <NotFound/>}
+const filteredReservations = reservations.filter((reservation)=> 
+     reservation.status==="booked" || reservation.status==="seated")
 
-// const filteredReservations = reservations.filter((reservation)=> 
-//     reservation.status==="booked" || reservation.status==="seated")
+     if(filteredReservations.length===0){
+        return <NotFound/>}
 
-const resList = reservations.map((res)=> 
+const resList = filteredReservations.map((res)=> 
     <li key = {res.reservation_id}>
         <Reservation 
             key = {res.reservation_id}

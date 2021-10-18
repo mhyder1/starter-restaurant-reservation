@@ -2,64 +2,66 @@ import React, {useState, useEffect}from "react";
 import {useParams, useHistory} from "react-router-dom"
 import ErrorAlert from "../layout/ErrorAlert"
 //import Reservation from "./Reservation"
-import { listTables, readReservation, seatTable } from "../utils/api";
+import { listTables, readReservation, seatTable, updateReservationStatus } from "../utils/api";
 
 function Seat(){
     const history = useHistory()
     
-    const [seatTableError, setSeatTableError] = useState(null)
+    //const [seatTableError, setSeatTableError] = useState(null)
     const [tablesError, setTablesError] = useState(null)
-    const [reservationError, setReservationError]= useState(null)
-    const [tableId, setTableId] = useState("")
-    const [reservation, setReservation] = useState([])
+    //const [reservationError, setReservationError]= useState(null)
+    const [form, setForm] = useState({table_id: ""})
+    const [reservation, setReservation] = useState({})
     const [tables, setTables] = useState([])
     const {reservation_id} = useParams();
     
-
- useEffect(()=> {
-    const abortController = new AbortController();
-         setTablesError(null)
-         listTables(abortController.signal)
-             .then(setTables)
-             .catch(setTablesError)
-         return()=> abortController.abort();
-     }, [])
-
-
-  useEffect(()=> {
-      const abortController= new AbortController();
-      setReservationError(null)
-      readReservation(reservation_id, abortController.signal)
-              .then(setReservation)
-              .catch(setReservationError)
-     return()=> abortController.abort();
-  }, [reservation_id])
-
+    useEffect(() => {
+        async function loadTables() {
+          const abortController = new AbortController();
+          setTablesError(null);
+          readReservation(reservation_id, abortController.signal)
+            .then(setReservation)
+            .catch(setTablesError);
+          listTables(abortController.signal).then(setTables).catch(setTablesError);
+          return () => abortController.abort();
+        }
+        loadTables();
+      }, [reservation_id]); 
 
 
 const handleChange = ({target}) => {
-    setTableId(target.value)
-    console.log(target.value)
+    setForm({[target.name]: target.value})
     };
 
 
  const handleSubmit = (event)=> {
      event.preventDefault();
-     const abortController= new AbortController();
-     setSeatTableError(null)
+     if(form.table_id !== 'x'){
+        const abortController= new AbortController();
+        let status = "seated"
+        updateReservationStatus(reservation_id, status, abortController.signal)
+        seatTable(reservation.reservation_id, parseInt(form.table_id), abortController.signal)
+            .then(()=> {
+                history.push("/dashboard")
+     })
+     }
+     
+    //  //setSeatTableError(null)
 
-     seatTable(reservation_id, tableId.table_id, abortController.signal)
-        .then(()=> history.push('/dashboard'))
-        .catch(setSeatTableError)
+    //  seatTable(reservation_id, tableId.table_id, abortController.signal)
+    //     .then(()=> history.push('/dashboard'))
+    //     .catch(setSeatTableError)
 
-    return ()=> abortController.abort()
+    // return ()=> abortController.abort()
  }
-
+    if(reservation.status==="booked"){
+        
+    }
     return (
         <>
-        <ErrorAlert error = {reservationError}/>
+        {/* <ErrorAlert error = {reservationError}/> */}
         <ErrorAlert error= {tablesError}/>
-        <ErrorAlert error = {seatTableError}/>
+        {/* <ErrorAlert error = {seatTableError}/> */}
         <h2>Assign table for party of {reservation.people}</h2>
             <form onSubmit={handleSubmit}>
                 <div className = "container">
@@ -69,10 +71,9 @@ const handleChange = ({target}) => {
                                 className = "form-control"
                                 name="table_id"
                                 id="table_id"
-                                value = {tableId}
                                 onChange = {handleChange}
                             >
-                                <option value = "" >--Select an Option--</option>
+                                <option value = "x" >--Select an Option--</option>
                                 {tables.map((table, index)=> {
                                     return (<option key={index} value={table.table_id}>{table.table_name}-{table.capacity}</option>)
                                 })}

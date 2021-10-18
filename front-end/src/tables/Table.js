@@ -9,22 +9,24 @@ function Table({table}){
 
     const [finishError, setFinishError] = useState(null);
 
-    const finishedHandler = (event) => {
-        event.preventDefault()
+    const finishedHandler = ({target}) => {
         if(window.confirm("Is this table ready to seat new guests? This cannot be undone.")){
+            const tableId = target.id
             const abortController = new AbortController()
-        finishTable(table.table_id, abortController.signal)
-            .then(()=> history.go(0))
+        finishTable(tableId, abortController.signal)
+            .then(()=> history.push('/'))
             .catch(setFinishError) 
             return ()=> abortController.abort();
         }
     }
 
     
+
+    
 return (
     <>
     <ErrorAlert error = {finishError}/>
-    <div className="card">
+    <div className="card" >
         <div className="card-body">
             <h5 className="card-title">{table.table_name}</h5>
             <div>
@@ -33,10 +35,17 @@ return (
                         Status: {occupied ? "Occupied" : "Free"}
                     </span>
                 </h6>
-                {!occupied ? null : 
-                <button data-table-id-finish={`${table.table_id}`} 
-                className = "btn btn-warning"
-                onClick={finishedHandler}>Finish</button>}
+                {table.reservation_id && (
+                <button
+                    data-table-id-finish={table.table_id}
+                    value={table.reservation_id}
+                    id={table.table_id}
+                    className="btn btn-primary"
+                    onClick={finishedHandler}
+                 >
+                    Finish
+                </button>
+                )}
                 
             </div>
         </div>

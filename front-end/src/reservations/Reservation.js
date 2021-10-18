@@ -32,7 +32,7 @@ function Reservation({reservation}){
 
   //need to figure out how to change status of a reservation when Seat clicked
     return(
-        <div className = "card">
+        <div className = "card resCard">
             <div className = "card-body">
                 <h5 className="card-title">
                     Reservation for: {first_name} {last_name}
@@ -44,7 +44,7 @@ function Reservation({reservation}){
                 {status==="booked" ? (
                     <Link to = {`/reservations/${reservation_id}/seat`}>
                         <button href ={`/reservations/${reservation_id}/seat`}
-                                className="btn btn-primary">
+                                className="btn btn-dark mr-2">
                                     Seat
                         </button>
                     </Link>
@@ -52,13 +52,13 @@ function Reservation({reservation}){
                 null}
                     <Link to={`/reservations/${reservation_id}/edit`}>
                         <button href = {`/reservations/${reservation_id}/edit`}
-                                className="btn btn-success">
+                                className="btn secondaryNavBtn text-white mr-2">
                                     Edit
                         </button>
                     </Link>
                         <button 
                             data-reservation-id-cancel={reservation.reservation_id} 
-                            className="btn btn-danger"
+                            className="btn tertiaryNavBtn text-white"
                             onClick = {handleCancel}>
                             Cancel
                         </button>

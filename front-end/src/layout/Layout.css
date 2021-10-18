@@ -1,6 +1,51 @@
 .side-bar {
-  background-color: #393a44;
+  background-color: #6C6C6b;
   min-width: 200px;
+}
+
+body{
+  font-family: "Roboto", sans-serif;
+  background-color: #f6f6f6;
+}
+
+.heading{
+  background-color: #1B110c;
+  text-align: center;
+  color: white
+}
+
+h4{
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  text-align: center;
+} 
+
+nav ul{
+  display: flex;
+  justify-content:space-evenly;
+}
+
+nav ul li span{
+  font-size: 20px;
+  padding: 0px 5px 20px 30px;
+  color:white
+  ;
+}
+
+.navBtn{
+  border-color: #D6B20E;
+  background-color: #D6B20E;
+}
+
+.secondaryNavBtn{
+  border-color: #04556a;
+  background-color: #04556a;
+}
+
+.tertiaryNavBtn{
+  border-color: #fd5319;
+  background-color:#fd5319;
 }
 
 .container{
@@ -9,7 +54,23 @@
   flex-direction: column;
 }
 
+.resCard{
+  border-color: #1B110c;
+  border-width: 2px;
+}
+
 .cardStyle {
   display: flex;
 }
 
+.dateNav {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 42px;
+  color: #D6B20E
+};

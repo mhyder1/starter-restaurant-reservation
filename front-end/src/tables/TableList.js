@@ -4,15 +4,13 @@ import Table from "../tables/Table"
 function TableList({tables}){
     let list = null;
 
-    if(tables.length){
-      list = tables.map((table, index)=> {
-        return (
-        <div key={index}>
+    list = tables.map((table)=> (
+        <div key={table.table_id}>
             <Table table = {table}/>
         </div>
         )
-      })  
-    }
+      )  
+    
     
  return(
      <>
