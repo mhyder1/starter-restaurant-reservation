@@ -58,11 +58,11 @@ function loadDashboard() {
       <div className="d-md-flex mb-3">
         <div className="mb-3">
         <h4 className="mb-0">Reservations for {reservationDate}</h4>
-          <DashboardDateNavigation date = {date}/>
-          <ReservationsList reservations = {reservations}/> 
+          <DashboardDateNavigation date = {date}/> 
         </div>
        {/* <ErrorAlert error = {tablesError}/>  */}
-        <div className="mb-3 mx-3">
+        <div className="d-flex flex-column mb-3 mx-3">
+          <ReservationsList reservations = {reservations}/>
           <h4>Tables</h4>
             <TableList tables={tables}/> 
         </div>

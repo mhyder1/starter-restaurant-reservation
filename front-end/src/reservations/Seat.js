@@ -45,14 +45,6 @@ const handleChange = ({target}) => {
                 history.push("/dashboard")
      })
      }
-     
-    //  //setSeatTableError(null)
-
-    //  seatTable(reservation_id, tableId.table_id, abortController.signal)
-    //     .then(()=> history.push('/dashboard'))
-    //     .catch(setSeatTableError)
-
-    // return ()=> abortController.abort()
  }
     if(reservation.status==="booked"){
         
@@ -72,11 +64,12 @@ const handleChange = ({target}) => {
                                 name="table_id"
                                 id="table_id"
                                 onChange = {handleChange}
+                                value={form.table_id}
                             >
                                 <option value = "x" >--Select an Option--</option>
-                                {tables.map((table, index)=> {
-                                    return (<option key={index} value={table.table_id}>{table.table_name}-{table.capacity}</option>)
-                                })}
+                                {tables.map(table=> (
+                                     <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>)
+                                )}
                             </select>
                             <button type="submit" className="btn btn-primary">Submit</button>
                             <button type="button" className="btn btn-secondary" onClick={()=> history.goBack()}>Cancel</button>

@@ -21,6 +21,7 @@ const resList = filteredReservations.map((res)=>
 return (
     <>
     <ErrorAlert/>
+    
     <ul className="list-unstyled">
      {resList}
     </ul>
