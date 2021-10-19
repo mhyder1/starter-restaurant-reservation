@@ -9,8 +9,8 @@ import React from "react";
  */
 function NotFound() {
   return (
-    <div className="NotFound">
-      <h1>Not Found</h1>
+    <div className="NotFound text-danger">
+      <h1 style={{fontSize: "30px"}}>Not Found</h1>
     </div>
   );
 }

@@ -31,6 +31,7 @@ function NewTable(){
         if(name === "capacity" && typeof value==="string"){
             value = +value
         }
+
         setTableForm({
             ...tableForm,
             [name]: value,
@@ -40,11 +41,8 @@ function NewTable(){
     return (
         <div>
             <h2 className="heading my-2 p-2">New Table</h2>
-            {/* <div class="group">
-				<div class="item"></div> */}
-            <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                 <ErrorAlert error={tableFormErrors}/>
-                
                     <div className="form-group formInput">
                         <label htmlFor="table_name">Table Name:</label>
                             <input 
@@ -71,12 +69,11 @@ function NewTable(){
                             />
                     </div>
                     <span className="formBtn">
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                    <button type="button" className="btn btn-secondary mx-3" onClick={()=> history.goBack()}>Cancel</button>
+                        <button type="submit" className="btn btn-primary">Submit</button>
+                        <button type="button" className="btn btn-secondary mx-3" onClick={()=> history.goBack()}>Cancel</button>
                     </span>
-        </form>
+                </form>
             </div>
-        // </div>
     )
 }
 

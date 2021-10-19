@@ -1,6 +1,7 @@
 import NotFound from "../layout/NotFound"
 import Reservation from "./Reservation"
 import ErrorAlert from "../layout/ErrorAlert"
+
 function ReservationsList({reservations}){
 
 const filteredReservations = reservations.filter((reservation)=> 
@@ -20,11 +21,10 @@ const resList = filteredReservations.map((res)=>
 
 return (
     <>
-    <ErrorAlert/>
-    
-    <ul className="list-unstyled">
-     {resList}
-    </ul>
+        <ErrorAlert/>
+        <ul className="list-unstyled">
+            {resList}
+        </ul>
     </>
 )
 }

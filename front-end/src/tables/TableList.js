@@ -11,12 +11,11 @@ function TableList({tables}){
         )
       )  
     
-    
- return(
-     <>
-     {list}
-     </>
- )
+    return(
+        <>
+            {list}
+        </>
+    )
 }
 
 export default TableList;

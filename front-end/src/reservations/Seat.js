@@ -1,15 +1,12 @@
 import React, {useState, useEffect}from "react";
 import {useParams, useHistory} from "react-router-dom"
 import ErrorAlert from "../layout/ErrorAlert"
-//import Reservation from "./Reservation"
 import { listTables, readReservation, seatTable, updateReservationStatus } from "../utils/api";
 
 function Seat(){
     const history = useHistory()
     
-    //const [seatTableError, setSeatTableError] = useState(null)
     const [tablesError, setTablesError] = useState(null)
-    //const [reservationError, setReservationError]= useState(null)
     const [form, setForm] = useState({table_id: ""})
     const [reservation, setReservation] = useState({})
     const [tables, setTables] = useState([])
@@ -33,7 +30,6 @@ const handleChange = ({target}) => {
     setForm({[target.name]: target.value})
     };
 
-
  const handleSubmit = (event)=> {
      event.preventDefault();
      if(form.table_id !== 'x'){
@@ -43,37 +39,33 @@ const handleChange = ({target}) => {
         seatTable(parseInt(form.table_id), reservation_id, abortController.signal)
             .then(()=> {
                 history.push("/dashboard")
-     })
-     }
+            })
+    }
  }
-    // if(reservation.status==="booked"){
-        
-    // }
+
     return (
         <>
-        {/* <ErrorAlert error = {reservationError}/> */}
         <ErrorAlert error= {tablesError}/>
-        {/* <ErrorAlert error = {seatTableError}/> */}
         <h2>Assign table for party of {reservation.people}</h2>
             <form onSubmit={handleSubmit}>
-                
-                    <div className= "form-group">
-                        <label htmlFor="table_id"> Choose a Table</label>
-                            <select
-                                className = "form-control"
-                                name="table_id"
-                                id="table_id"
-                                onChange = {handleChange}
-                                value={form.table_id}
-                            >
-                                <option value = "x" >--Select an Option--</option>
+                <div className= "form-group">
+                    <label htmlFor="table_id"> Choose a Table</label>
+                        <select
+                            className = "form-control"
+                            name="table_id"
+                            id="table_id"
+                            onChange = {handleChange}
+                            value={form.table_id}
+                        >
+                                
+                            <option value = "x" >--Select an Option--</option>
                                 {tables.map(table=> (
                                      <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>)
                                 )}
-                            </select>
+                        </select>
                             <button type="submit" className="btn btn-primary mx-2">Submit</button>
                             <button type="button" className="btn btn-secondary mx-2" onClick={()=> history.goBack()}>Cancel</button>
-                    </div>
+                </div>
             </form>
         </>
     )

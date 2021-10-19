@@ -12,10 +12,8 @@ function Search(){
     const handleChange = ({target}) => {
         let {value} = target;
         setMobileNumber(value)
-        
     }
-    console.log(mobileNumber)
-
+  
     const handleSubmit = async (event) => {
         event.preventDefault();
         const abortController = new AbortController();
@@ -27,8 +25,6 @@ function Search(){
 
         return ()=> abortController.abort()
     }
-    console.log(reservations)
-
     
     const reservationsList = reservations.length > 0 ? (
         <ReservationList reservations = {reservations}/>
@@ -38,23 +34,23 @@ function Search(){
         <>
         <ErrorAlert error = {error}/>
         <h2 className="heading my-2 p-2">Search for Reservation</h2>
-        <form onSubmit={handleSubmit}>
-        <div className = "form-group">
-                <label htmlFor = "mobile_number">Mobile Number</label>
-                <input
-                    className="form-control"
-                    id="mobile_number"
-                    name = "mobile_number"
-                    type = "text"
-                    placeholder="Enter a customer's phone number"
-                    required ={true}
-                    onChange = {handleChange}
-                    value = {mobileNumber}
-                />
-        </div>
-        <button className="btn btn-dark mb-4" type="submit">Find</button> 
+            <form onSubmit={handleSubmit}>
+                <div className = "form-group">
+                    <label htmlFor = "mobile_number">Mobile Number</label>
+                        <input
+                            className="form-control"
+                            id="mobile_number"
+                            name = "mobile_number"
+                            type = "text"
+                            placeholder="Enter a customer's phone number"
+                            required ={true}
+                            onChange = {handleChange}
+                            value = {mobileNumber}
+                        />
+                </div>
+            <button className="btn btn-dark mb-4" type="submit">Find</button> 
         </form>
-        {reservationsList}
+            {reservationsList}
         </>
     )
 }
