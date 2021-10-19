@@ -40,15 +40,15 @@ const handleChange = ({target}) => {
         const abortController= new AbortController();
         let status = "seated"
         updateReservationStatus(reservation_id, status, abortController.signal)
-        seatTable(reservation.reservation_id, parseInt(form.table_id), abortController.signal)
+        seatTable(parseInt(form.table_id), reservation_id, abortController.signal)
             .then(()=> {
                 history.push("/dashboard")
      })
      }
  }
-    if(reservation.status==="booked"){
+    // if(reservation.status==="booked"){
         
-    }
+    // }
     return (
         <>
         {/* <ErrorAlert error = {reservationError}/> */}
@@ -56,7 +56,7 @@ const handleChange = ({target}) => {
         {/* <ErrorAlert error = {seatTableError}/> */}
         <h2>Assign table for party of {reservation.people}</h2>
             <form onSubmit={handleSubmit}>
-                <div className = "container">
+                
                     <div className= "form-group">
                         <label htmlFor="table_id"> Choose a Table</label>
                             <select
@@ -71,10 +71,9 @@ const handleChange = ({target}) => {
                                      <option key={table.table_id} value={table.table_id}>{table.table_name} - {table.capacity}</option>)
                                 )}
                             </select>
-                            <button type="submit" className="btn btn-primary">Submit</button>
-                            <button type="button" className="btn btn-secondary" onClick={()=> history.goBack()}>Cancel</button>
+                            <button type="submit" className="btn btn-primary mx-2">Submit</button>
+                            <button type="button" className="btn btn-secondary mx-2" onClick={()=> history.goBack()}>Cancel</button>
                     </div>
-                </div>
             </form>
         </>
     )

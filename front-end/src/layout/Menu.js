@@ -16,35 +16,35 @@ function Menu() {
         <div className="d-flex flex-column">
           <section>
         <Link
-          className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+          className="navbar-brand"
           to="/"
         >
-          <div className="sidebar-brand-text mx-3">
+          <div className="sidebar-brand-text font-weight-bolder mx-3">
             <span className="title">Periodic Tables</span>
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
         <ul className="nav navbar-nav d-flex flex-row text-white" id="accordionSidebar">
-          <li className="nav-item">
-            <Link className="nav-link" to="/dashboard" style={{color: "white", fontSize: "20px"}}>
+          <li className="nav-item mx-2">
+            <Link className="nav-link" to="/dashboard" style={{color: "white", fontSize: "18px"}}>
               <span className="oi oi-dashboard" />
               &nbsp;Dashboard
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/search" style={{color: "white", fontSize: "20px"}}>
+          <li className="nav-item mx-2">
+            <Link className="nav-link" to="/search" style={{color: "white", fontSize: "18px"}}>
               <span className="oi oi-magnifying-glass" />
               &nbsp;Search
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/reservations/new" style={{color: "white", fontSize: "20px"}}>
+          <li className="nav-item mx-2">
+            <Link className="nav-link" to="/reservations/new" style={{color: "white", fontSize: "18px"}}>
               <span className="oi oi-plus" />
               &nbsp;New Reservation
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/tables/new" style={{color: "white", fontSize: "20px"}}>
+          <li className="nav-item mx-3">
+            <Link className="nav-link" to="/tables/new" style={{color: "white", fontSize: "18px"}}>
               <span className="oi oi-layers" />
               &nbsp;New Table
             </Link>

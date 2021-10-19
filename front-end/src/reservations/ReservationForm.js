@@ -1,3 +1,5 @@
+
+   
 import React, {useEffect, useState} from "react";
 import { useHistory, useParams} from "react-router-dom"
 import {postReservation, readReservation, updateReservation} from "../utils/api"
@@ -72,14 +74,15 @@ function ReservationForm(){
       
     return (
         <>
-        {reservation_id ? <h1>Edit Reservation</h1> : <h1>Make a Reservation</h1> }
+        {reservation_id ? <h2>Edit Reservation</h2> : <h2>Make a Reservation</h2> }
         <form onSubmit = {handleSubmit}>
             <ErrorAlert error = {reservationsError}/>
             <div className="container">
-            <div className="form-group">
+            <div className="form-group formDivCreate">
                 <label htmlFor="first_name">
                     First Name:
                     <input 
+                        className="form-control"
                         type="text" 
                         id="first_name" 
                         name="first_name"
@@ -91,10 +94,11 @@ function ReservationForm(){
                 </label>
             </div>
             
-            <div className="form-group">
+            <div className="form-group formDivCreate">
                 <label htmlFor="last_name">
                     Last Name:
                     <input 
+                        className="form-control"
                         type="text" 
                         id="last_name" 
                         name="last_name"
@@ -106,10 +110,11 @@ function ReservationForm(){
                 </label>
             </div>
 
-            <div className="form-group">
+            <div className="form-group formDivCreate">
                 <label htmlFor="mobile_number">
                     Phone number: 
                     <input 
+                        className="form-control"
                         type="tel" 
                         id="telNo" 
                         name="mobile_number" 
@@ -121,10 +126,11 @@ function ReservationForm(){
                 </label>
             </div>
 
-            <div className="form-group">
+            <div className="form-group formDivCreate">
                 <label htmlFor="reservation_date">
                     Reservation Date: 
                     <input 
+                        className="form-control"
                         type="date" 
                         id="reservation_date" 
                         name="reservation_date"
@@ -135,10 +141,11 @@ function ReservationForm(){
                 </label>
             </div>
 
-            <div className="form-group">
+            <div className="form-group formDivCreate">
                 <label htmlFor="reservation_time">
                     Reservation Time: 
                     <input 
+                        className="form-control"
                         type="time" 
                         id="reservation_time" 
                         name="reservation_time"
@@ -149,10 +156,11 @@ function ReservationForm(){
                 </label>
             </div>
 
-            <div className="form-group">
+            <div className="form-group formDivCreate">
                 <label htmlFor="people">
                     Number of People in Party: 
-                    <input 
+                    <input
+                        className="form-control" 
                         type="number" 
                         id="people" 
                         name="people"
@@ -164,8 +172,8 @@ function ReservationForm(){
                 </label>
             </div>
             </div>
-            <button type="submit" className="btn btn-primary" >Submit</button>
-            <button type="button" className="btn btn-secondary" onClick={()=> history.goBack()}>Cancel</button>
+            <button type="submit" className="btn btn-primary mx-2" >Submit</button>
+            <button type="button" className="btn btn-secondary mx-2" onClick={()=> history.goBack()}>Cancel</button>
             
  
         </form>

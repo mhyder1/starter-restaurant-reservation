@@ -1,17 +1,59 @@
+/*---- Header/Nav ----*/
 .side-bar {
-  background-color: #6C6C6b;
+  background-color: #2A5078;
   min-width: 200px;
-}
-
-body{
-  font-family: "Roboto", sans-serif;
-  background-color: #f6f6f6;
-}
-
-.heading{
-  background-color: #1B110c;
+  display: flex;
+  justify-content:center;
+  align-items:center;
   text-align: center;
-  color: #f6f6f6
+  margin: 0;
+}
+
+nav ul{
+  display: flex;
+  justify-content:space-evenly;
+}
+
+nav ul li span{
+  font-size: 15px;
+  padding: 0px 5px 20px 30px;
+  color:white;
+}
+
+.navBtn{
+  border-color:#ffd653;
+  background-color:#ffd653;
+  color: #2A5078;
+}
+
+.title {
+  font-family: 'Open sans', sans-serif;
+  font-size: 34px;
+  color: #ffd653;
+  
+};
+
+/*---- Body -----*/
+body{
+  font-family: "Open Sans", sans-serif;
+  background-color: #fcfaf1;
+}
+
+h2{
+  font-size: 30px;
+  text-align: center;
+  color: #2A5078;
+  width: 100%;
+}
+
+h3{
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  text-align: center;
+  background-color: #2A5078;
+  color: white;
+  padding: 10px;
 }
 
 h4{
@@ -21,41 +63,47 @@ h4{
   text-align: center;
 } 
 
-nav ul{
-  display: flex;
-  justify-content:space-evenly;
-}
-
-nav ul li span{
-  font-size: 20px;
-  padding: 0px 5px 20px 30px;
-  color:white
-  ;
-}
-
-.navBtn{
-  border-color: #D6B20E;
-  background-color: #D6B20E;
-}
-
-.secondaryNavBtn{
-  border-color: #04556a;
-  background-color: #04556a;
-}
-
-.tertiaryNavBtn{
-  border-color: #fd5319;
-  background-color:#fd5319;
-}
-
-.container{
+.dateNav {
   display: flex;
   justify-content: center;
-  flex-direction: column;
 }
 
-.resCard{
-  border-color: #1B110c;
+.prevNext{
+  border-color: #ffd653;
+  color:#2A5078;
+  border-width: 2px;
+  background-color: white;
+}
+
+
+
+/* --- Forms ----*/
+
+.resBtn{
+  margin-left:20%
+}
+
+.formBtn{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.formDivCreate{
+  display:flex;
+  justify-content: space-between;
+  flex-direction:column;
+}
+
+
+form select, form input {
+  margin-bottom: 20px;
+  
+}
+
+
+/* --- Cards ---*/
+.cards{
+  border-color: #2A5078;
   border-width: 2px;
 }
 
@@ -63,14 +111,61 @@ nav ul li span{
   display: flex;
 }
 
-.dateNav {
-  display: flex;
-  justify-content: center;
+.editBtn{
+  background-color: #A7b6c8;
+}
+
+.cancelBtn{
+  border-color: #bb6a23;
+  background-color: #bb6a23;
+}
+
+
+/* -------  Media Query ------- */
+
+@media all and (min-width: 480px) {
+  .heading{
+    font-size: 25px;
+  }
+  
+  .item {
+    flex: 1;
+    margin: 10px;
+  }
+  
+  
+  .side-bar{
+    align-items:flex-start;
+    min-width: 280px;
+    justify-content:center;
+  }
+
+  nav ul{
+    display: flex;
+    justify-content:flex-start;
+  }
+  
+  nav ul li span{
+    font-size: 20px;
+    color:white;
+  }
+  
+  .navBtn{
+    border-color:#ffd653;
+    background-color:#ffd653;
+    color: #2A5078;
+  }
+ 
+  .group {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .formDivCreate{
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between;
+  }
   
 }
 
-.title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 42px;
-  color: #D6B20E
-};

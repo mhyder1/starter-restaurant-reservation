@@ -37,11 +37,12 @@ function Search(){
     return (
         <>
         <ErrorAlert error = {error}/>
-        <h2>Search for Reservation</h2>
+        <h2 className="heading my-2 p-2">Search for Reservation</h2>
         <form onSubmit={handleSubmit}>
         <div className = "form-group">
                 <label htmlFor = "mobile_number">Mobile Number</label>
                 <input
+                    className="form-control"
                     id="mobile_number"
                     name = "mobile_number"
                     type = "text"
@@ -51,7 +52,7 @@ function Search(){
                     value = {mobileNumber}
                 />
         </div>
-        <button className="btn btn-dark" type="submit">Find</button> 
+        <button className="btn btn-dark mb-4" type="submit">Find</button> 
         </form>
         {reservationsList}
         </>

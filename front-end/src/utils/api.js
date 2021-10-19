@@ -109,7 +109,7 @@
       body: JSON.stringify({data: updatedReservation}),
       signal,
     }
-    return await fetchJson(url, options)
+    return await fetchJson(url, options, [])
      
   }
 
@@ -129,15 +129,16 @@
     return await fetchJson(url, options)
   }
 
-  export async function seatTable(reservation_id, table_id, signal){
-    const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  export async function seatTable(tableId, reservation_id, signal){
+    const url = `${API_BASE_URL}/tables/${tableId}/seat`;
     const options = {
       method: "PUT",
       headers, 
-      body: JSON.stringify({data: {reservation_id: reservation_id}}),
+      body: JSON.stringify({data: {reservation_id}}),
       signal,
     }
-    return await fetchJson(url, options)
+    const returnedTable = await fetchJson(url, options, [])
+    return returnedTable;
   }
 
   export async function finishTable(table_id, signal){

@@ -26,7 +26,7 @@ function Table({table}){
 return (
     <>
     <ErrorAlert error = {finishError}/>
-    <div className="card" >
+    <div className="card cards mb-2" >
         <div className="card-body">
             <h5 className="card-title">{table.table_name}</h5>
             <div>
@@ -40,7 +40,7 @@ return (
                     data-table-id-finish={table.table_id}
                     value={table.reservation_id}
                     id={table.table_id}
-                    className="btn btn-primary"
+                    className="btn navBtn font-weight-bolder"
                     onClick={finishedHandler}
                  >
                     Finish

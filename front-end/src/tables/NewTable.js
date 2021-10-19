@@ -28,33 +28,40 @@ function NewTable(){
         let value = target.value
         let name = target.name
 
+        if(name === "capacity" && typeof value==="string"){
+            value = +value
+        }
         setTableForm({
             ...tableForm,
-            [value]: name,
+            [name]: value,
         })
     }
 
     return (
         <div>
-            <h1>New Table</h1>
+            <h2 className="heading my-2 p-2">New Table</h2>
+            {/* <div class="group">
+				<div class="item"></div> */}
             <form onSubmit={handleSubmit}>
                 <ErrorAlert error={tableFormErrors}/>
-                <div className="container">
-                    <div className="form-group">
-                        <label htmlFor="table_name">Table Name</label>
+                
+                    <div className="form-group formInput">
+                        <label htmlFor="table_name">Table Name:</label>
                             <input 
+                               className="form-control"
                                type="text"
                                id="table_name"
                                name="table_name"
-                               placeholder="Table name"
+                               placeholder="Enter table name"
                                required = {true}
                                onChange = {handleChange} 
                             />
                     </div>
                 
                     <div className = "form-group">
-                        <label htmlFor="capacity">Capacity</label>
+                        <label htmlFor="capacity">Capacity:</label>
                             <input
+                                className="form-control"
                                 type = "number"
                                 name= "capacity"
                                 id="capacity"
@@ -63,11 +70,13 @@ function NewTable(){
                                 onChange = {handleChange}
                             />
                     </div>
-                </div>
+                    <span className="formBtn">
                     <button type="submit" className="btn btn-primary">Submit</button>
-                    <button type="button" className="btn btn-secondary" onClick={()=> history.goBack()}>Cancel</button>
-            </form>
-        </div>
+                    <button type="button" className="btn btn-secondary mx-3" onClick={()=> history.goBack()}>Cancel</button>
+                    </span>
+        </form>
+            </div>
+        // </div>
     )
 }
 
