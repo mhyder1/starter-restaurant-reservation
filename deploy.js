@@ -52,8 +52,8 @@ async function deploy() {
     let createFront = `heroku create ${herokuFrontend}`
     let backendRemote = await runCommand(createBack)
     let frontendRemote = await runCommand(createFront)
-    console.log(backendRemote)
-    console.log(frontendRemote)
+    console.log(backendRemote.split('|')[1].trim())
+    console.log(frontendRemote.split('|')[1].trim())
     await runCommand(`git remote add heroku-test-b ${backendRemote}`)
     await runCommand(`git remote add heroku-test-f ${frontendRemote}`)
     await runCommand('git add .')
