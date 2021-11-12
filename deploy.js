@@ -45,27 +45,23 @@ async function deploy() {
     const buildPack = `-b https://github.com/mars/create-react-app-buildpack.git`
     const herokuBackend = `${input}-backend-${timeStamp}`
     const herokuFrontend = `${input}-frontend-${timeStamp} ${buildPack}`
-    // let back = process.argv[3]
-    // console.log(front, back)
-    console.log(herokuBackend)
+
     let createBack = `heroku create ${herokuBackend}`
     let createFront = `heroku create ${herokuFrontend}`
     let backendRemote = await runCommand(createBack)
     let frontendRemote = await runCommand(createFront)
-    // console.log(backendRemote.split('|')[1].trim())
-    // console.log(frontendRemote.split('|')[1].trim())
+
     backendRemote = backendRemote.split('|')[1].trim()
     frontendRemote = frontendRemote.split('|')[1].trim()
-    // console.log({backendRemote})
-    // console.log({frontendRemote})
+
     const remoteBackend = 'heroku-backend'
     const remoteFrontend = 'heroku-frontend'
     await runCommand(`git remote add ${remoteBackend} ${backendRemote}`)
     await runCommand(`git remote add ${remoteFrontend} ${frontendRemote}`)
     await runCommand('git add .')
     await runCommand('git commit -m "deploying to heroku"')
-    await runCommand(`git subtree push --prefix backend ${remoteBackend} main`)
-    await runCommand(`git subtree push --prefix client ${remoteFrontend} main`)
+    await runCommand(`git subtree push --prefix back-end ${remoteBackend} main`)
+    await runCommand(`git subtree push --prefix front-end ${remoteFrontend} main`)
     // console.log(result)
 }
 
