@@ -56,10 +56,16 @@ async function deploy() {
     // console.log(frontendRemote.split('|')[1].trim())
     backendRemote = backendRemote.split('|')[1].trim()
     frontendRemote = frontendRemote.split('|')[1].trim()
-    await runCommand(`git remote add heroku-test-b ${backendRemote}`)
-    await runCommand(`git remote add heroku-test-f ${frontendRemote}`)
+    // console.log({backendRemote})
+    // console.log({frontendRemote})
+    const remoteBackend = 'heroku-backend'
+    const remoteFrontend = 'heroku-frontend'
+    await runCommand(`git remote add ${remoteBackend} ${backendRemote}`)
+    await runCommand(`git remote add ${remoteFrontend} ${frontendRemote}`)
     await runCommand('git add .')
     await runCommand('git commit -m "deploying to heroku"')
+    await runCommand(`git subtree push --prefix backend ${remoteBackend} main`)
+    await runCommand(`git subtree push --prefix client ${remoteFrontend} main`)
     // console.log(result)
 }
 
