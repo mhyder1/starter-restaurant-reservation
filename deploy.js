@@ -60,8 +60,8 @@ async function deploy() {
     await runCommand(`git remote add ${remoteFrontend} ${frontendRemote}`)
     await runCommand('git add .')
     await runCommand('git commit -m "deploying to heroku"')
-    await runCommand(`git subtree push --prefix back-end ${remoteBackend} main`)
-    await runCommand(`git subtree push --prefix front-end ${remoteFrontend} main`)
+    await runCommand(`git subtree push --verbose --prefix back-end ${remoteBackend} main`)
+    await runCommand(`git subtree push --verbose --prefix front-end ${remoteFrontend} main`)
     // console.log(result)
 }
 
