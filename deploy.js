@@ -43,7 +43,6 @@ async function deploy() {
 
     let input = process.argv[2]
     let timeStamp = new Date().getTime().toString().substring(3)
-    console.log(timeStamp)
     const buildPack = `-b https://github.com/mars/create-react-app-buildpack.git`
     const herokuBackend = `${input}-backend-${timeStamp}`
     const herokuFrontend = `${input}-frontend-${timeStamp} ${buildPack}`
