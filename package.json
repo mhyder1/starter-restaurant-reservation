@@ -52,5 +52,9 @@
     "caniuse-lite": "^1.0.30001264",
     "knex": "^0.95.11",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "jest-puppeteer": "^6.1.1",
+    "puppeteer": "^15.5.0"
   }
 }
