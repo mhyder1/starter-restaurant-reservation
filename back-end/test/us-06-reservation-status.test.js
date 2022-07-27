@@ -251,6 +251,7 @@ describe("US-06 - Reservation status", () => {
     });
 
     test("does not include 'finished' reservations", async () => {
+      console.log(typeof reservationOne.reservation_date, reservationOne.reservation_date)
       expect(tableOne).not.toBeUndefined();
       expect(reservationOne).not.toBeUndefined();
 

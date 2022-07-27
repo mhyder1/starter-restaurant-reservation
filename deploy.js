@@ -16,7 +16,6 @@ function execShellCommand(cmd) {
       if (error) {
         reject(stderr);
       }
-      console.log(stdout)
       resolve(stdout);
     });
   });

@@ -1,33 +1,33 @@
-import NotFound from "../layout/NotFound"
-import Reservation from "./Reservation"
-import ErrorAlert from "../layout/ErrorAlert"
+import NotFound from "../layout/NotFound";
+import Reservation from "./Reservation";
+import ErrorAlert from "../layout/ErrorAlert";
 
-function ReservationsList({reservations}){
+function ReservationsList({ reservations }) {
+  const filteredReservations = reservations.filter(
+    (reservation) =>
+      reservation.status === "booked" || reservation.status === "seated"
+  );
 
-const filteredReservations = reservations.filter((reservation)=> 
-     reservation.status==="booked" || reservation.status==="seated")
+  if (filteredReservations.length === 0) {
+    return <NotFound />;
+  }
 
-     if(filteredReservations.length===0){
-        return <NotFound/>}
+  const resList = filteredReservations.map((res) => (
+    <li key={res.reservation_id}>
+      <Reservation
+        key={res.reservation_id}
+        reservation={res}
+        reservationId={res.reservation_id}
+      />
+    </li>
+  ));
 
-const resList = filteredReservations.map((res)=> 
-    <li key = {res.reservation_id}>
-        <Reservation 
-            key = {res.reservation_id}
-            reservation= {res}
-            reservationId = {res.reservation_id}
-        />
-    </li>)
-
-return (
+  return (
     <>
-        <ErrorAlert/>
-        <ul className="list-unstyled">
-            {resList}
-        </ul>
+      <ErrorAlert />
+      <ul className="list-unstyled">{resList}</ul>
     </>
-)
+  );
 }
 
-
-export default ReservationsList
+export default ReservationsList;
