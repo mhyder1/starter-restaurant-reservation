@@ -84,6 +84,7 @@ function hasValidCapacity(req, res, next) {
 
 function tableIsFree(req, res, next) {
   const { reservation_id } = res.locals.table;
+  console.log(res.locals.table, '------------------')
   if (reservation_id) {
     return next({
       status: 400,

@@ -43,7 +43,9 @@
     "test:8:frontend": "npm run test:8 --prefix ./front-end",
     "test:8:backend": "npm run test:8 --prefix ./back-end",
     "test:e2e": "npm run test:e2e --prefix ./front-end",
-    "test:frontend:watch": "npm test --prefix ./front-end"
+    "test:frontend:watch": "npm test --prefix ./front-end",
+    "migrate": "cd back-end && npx knex migrate:latest",
+    "seed": "cd back-end && npx knex seed:run"
   },
   "keywords": [],
   "author": "Thinkful, Inc.",
